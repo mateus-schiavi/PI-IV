@@ -1,13 +1,16 @@
-import CorredoresChart from "./Components/CorredoresChart";
+import React from 'react';
+import Page from './Components/Page'
+import RunnerDashboard from './Components/Dashboard';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-    <div className="App">
-      <h1>Dashboard de Corredores</h1>
-      <CorredoresChart />
-    </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Page />}/>
+        <Route path="/dashboard" element={<RunnerDashboard />}/>
+      </Routes>
+    </Router>
   );
 }
 
