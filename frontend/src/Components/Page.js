@@ -1,15 +1,36 @@
 import React from "react";
-import {Radio, Search } from 'lucide-react';
+import { Radio, Search } from 'lucide-react';
 import '../Styles/App.css'
-import RunnerDashboard from "./Dashboard";
+import Caminhada from '../Images/caminhada.png'
+import corrida_bike from '../Images/corrida_bike.png'
+import corrida_pcd from '../Images/corrida_pcd.png'
+import corrida_solo from '../Images/corrida_solo.png'
+import corrida from '../Images/corrida.png'
 import { Link } from "react-router-dom";
 export default function Page() {
-    const artists = [
-        { name: 'Artista', genre: 'R&B', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop' },
-        { name: 'Artista', genre: 'Hip hop', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' },
-        { name: 'Artista', genre: 'Eletrônica', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=400&fit=crop' },
-        { name: 'Artista', genre: 'Funk', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop' }
+    const imagensSemana = [
+        {
+            src: corrida,
+            name: "Corrida de Rua",
+            genre: "Superando limites a cada passo.",
+        },
+        {
+            src: corrida_bike,
+            name: "Corrida de Bicicleta",
+            genre: "Algo essencial para tonificar as pernas.",
+        },
+        {
+            src: corrida_pcd,
+            name: "Treino Inclusivo",
+            genre: "Ótimo para ajudar pessoas com mobilidade reduzida",
+        },
+        {
+            src: corrida_solo,
+            name: "Corrida Solo",
+            genre: "É sempre bom correr, independente de ser sozinho ou não",
+        },
     ];
+
 
     return (
         <>
@@ -58,7 +79,7 @@ export default function Page() {
                         {/* Hero Image */}
                         <div className="hero-image">
                             <img
-                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop"
+                                src={Caminhada}
                                 alt="Pessoa correndo livre"
                             />
                         </div>
@@ -69,19 +90,18 @@ export default function Page() {
                             participantes, visando melhorar os serviços prestados
                         </p>
 
-                        {/* Artists Section */}
+                        {/* Images Section */}
                         <div className="artists-section">
-                            <h2 className="section-title">Imagens da semana!!</h2>
                             <div className="artists-grid">
-                                {artists.map((artist, index) => (
+                                {imagensSemana.map((item, index) => (
                                     <div key={index} className="artist-card">
                                         <div className="artist-image-container">
-                                            <img src={artist.name}
-                                                alt={artist.name}
+                                            <img src={item.src}
+                                                alt={item.name}
                                                 className="artist-image" />
                                         </div>
-                                        <h3 className="artist-name">{artist.name}</h3>
-                                        <h3 className="artist-genre">{artist.genre}</h3>
+                                        <h3 className="artist-name">{item.name}</h3>
+                                        <h3 className="artist-genre">{item.genre}</h3>
                                     </div>
                                 ))}
                             </div>
