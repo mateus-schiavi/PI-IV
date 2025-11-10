@@ -29,18 +29,6 @@ export default function RunnerDashboard() {
         }
     };
 
-    // Função para contar valores de um campo específico
-    const countByField = (field) => {
-        const counts = {};
-        corredores.forEach(corredor => {
-            const value = corredor[field];
-            if (value) {
-                counts[value] = (counts[value] || 0) + 1;
-            }
-        });
-        return counts;
-    };
-
     // Função para converter contagem em dados para gráfico
     const convertToChartData = (counts, colorMap) => {
         return Object.entries(counts).map(([name, value]) => ({
@@ -100,6 +88,36 @@ export default function RunnerDashboard() {
         'Todos os dias': '#10B981'
     };
 
+
+    const motivacaoColors = {
+        'Saúde / Bem-estar': '#4F46E5',
+        'Desempenho / Superação pessoal': '#FBBF24',
+        'Estética / Emagrecimento': '#EC4899',
+        'Redução do estresse': '#10B981',
+        'Socialização': '#3B82F6',
+        'Outro': '#8B5CF6',
+    };
+
+    // Função para contar valores de um campo específico (inclusive quando há múltiplos separados por ;)
+    const countByField = (field) => {
+        const counts = {};
+        corredores.forEach((corredor) => {
+            let value = corredor[field];
+            if (!value) return;
+
+            // Divide respostas múltiplas separadas por ";"
+            const items = value.split(';').map((item) => item.trim()).filter(Boolean);
+
+            items.forEach((item) => {
+                // Trata casos de "Outro: ____"
+                const cleanItem = item.startsWith('Outro') ? 'Outro' : item;
+                counts[cleanItem] = (counts[cleanItem] || 0) + 1;
+            });
+        });
+        return counts;
+    };
+
+
     // Gerar dados dos gráficos
     const generoData = convertToChartData(countByField('genero'), generoColors);
     const idadeData = convertToChartData(countByField('idade'), idadeColors);
@@ -108,7 +126,7 @@ export default function RunnerDashboard() {
     const rendaData = convertToChartData(countByField('renda_familiar_mensal'), rendaColors);
     const frequenciaData = convertToChartData(countByField('frequencia'), frequenciaColors);
     const profissaoData = convertToChartData(countByField('profissao'), {});
-
+    const motivacaoData = convertToChartData(countByField('motivacao'), motivacaoColors);
     // Cores diversificadas para profissões
     const profissaoColorsArray = ['#4F46E5', '#EF4444', '#FBBF24', '#10B981', '#8B5CF6', '#EC4899', '#06B6D4', '#F97316', '#14B8A6', '#F59E0B'];
     profissaoData.forEach((item, index) => {
@@ -309,6 +327,30 @@ export default function RunnerDashboard() {
                                 >
                                     {frequenciaData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+
+                    {/* Motivação */}
+                    <div className='chart-card'>
+                        <h3 className='chart-title'>Motivação para praticar corrida</h3>
+                        <ResponsiveContainer width="100%" height={250}>
+                            <PieChart>
+                                <Pie
+                                    data={motivacaoData}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
+                                    label={(entry) => `${entry.name}: ${entry.value}`}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                >
+                                    {motivacaoData.map((entry, index) => (
+                                        <Cell key={`cell-motivacao-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
                                 <Tooltip />
