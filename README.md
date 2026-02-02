@@ -64,9 +64,7 @@ python manage.py migrate
 
 # Inicie o servidor
 python manage.py runserver
-```
 
-### Frontend (JavaScript)
 # Acesse a pasta do frontend
 cd frontend
 
@@ -75,3 +73,4 @@ npm install
 
 # Inicie o servidor de desenvolvimento
 npm run dev
+```
